@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>表单</title>
+   <!-- React 的核心库 -->
+   <script src="../build/react.js"></script>
+   <!-- 提供和DOM相关的功能 -->
+   <script src="../build/react-dom.js"></script>
+   <!-- 将jsx语法转换成js语法 -->
+   <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+<script type="text/babel">
+
+     
+    var MyTitle = React.createClass({
+        getInitialState(){
+             return {
+                 value: "React",
+                 defualtId: '初始值'
+             }
+         },
+         getValue(e){
+            // 通过触发onChange事件的回调函数读取input中的值，通过e.target.value
+           
+            console.log(e.target.value);;
+            this.setState({
+                value: e.target.value
+                
+            })
+         },
+         render(){
+
+             return (
+                <div>
+                    <h1>表单</h1>
+                    <input type="text" value={this.state.value} onChange={this.getValue}/>
+                    <h3>{this.state.value}</h3>
+                    <input type="text" defaultValue = {this.state.defualtId}/>
+                </div>
+             )
+         },
+         componentDidMount(){
+             var self = this;
+             setTimeout(function() {
+                self.setState({
+                    defualtId: '变了'
+                })
+             }, 3000);
+             // 可以看出input的默认值并不会改变，defualtValue是默认值，第一次设置时生效。即使改变了值，也不会显示在页面。
+         }
+    }) 
+
+    
+    ReactDOM.render(
+        <MyTitle/>,
+        document.getElementById("app")
+    )
+
+
+</script>
+</html>

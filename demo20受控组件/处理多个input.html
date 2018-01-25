@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+ 
+</head>
+<body>
+    <div id="app"></div>
+    
+</body>
+</html>
+<script type="text/babel">
+
+    class MoreInput extends React.Component{
+        constructor(props){
+            super(props);
+            this.state={
+                txt: '',
+                check: true
+            }
+
+            this.handleSubmit = this.handleSubmit.bind(this);
+            this.handleChange = this.handleChange.bind(this);
+            
+        }
+
+        render(){
+            return(
+                <form onSubmit={this.handleSubmit}>
+                    <label>
+                        爱好：
+                        <input type="checkbox" name="check" checked={this.state.check} onChange={this.handleChange} />打球
+                         
+                    </label>
+                    <br/>
+                    <label>
+                        输入： 
+                        <input type="text" name="txt" value={this.state.txt} onChange={this.handleChange}/>
+                    </label>
+                    <input type="submit" onSubmit={this.handleSubmit} />
+                </form>
+            )
+        }
+
+        handleSubmit(){
+             
+            alert(this.state.txt)
+            alert(this.state.check)
+            e.preventDefualt()
+        }
+
+        handleChange(e){
+            let ele = e.target;
+            let name = ele.name;
+            let values = ele.type=='checkbox'?ele.checked: ele.value;
+            console.log(values)
+            this.setState({
+                [name]: values
+            })
+        }
+
+    }
+
+    ReactDOM.render(
+        <MoreInput/>,
+        document.getElementById('app')
+    )
+
+</script>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>getDefaultProps</title>
+     <!-- React 的核心库 -->
+     <script src="../build/react.js"></script>
+     <!-- 提供和DOM相关的功能 -->
+     <script src="../build/react-dom.js"></script>
+     <!-- 将jsx语法转换成js语法 -->
+     <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+<script type="text/babel">
+
+    // 组件属性的默认值
+    // getDefaultProps方法 有返回值
+
+    var MyTitle = React.createClass({
+        getDefaultProps(){
+            return {
+                title: 'World',
+                content: "Hello everyOne"
+            }
+        },
+        render(){
+            return (
+                <div>
+                    <h1>Hello {this.props.title}</h1>
+                    <h3>{this.props.content}</h3>    
+                </div>
+            )
+        }
+    })
+
+    // 最好挂载在一个div元素上，相当于父组件的根元素，不要直接挂载在body上 
+    ReactDOM.render(
+        // 下面情况已经设置了title属性，值为空字符串
+        // <MyTitle title="" content="this is a good man"/>,
+        // 下面情况才是没有传值，使用组件类中的默认值
+        <MyTitle  content="this is a good man"/>,
+
+        document.getElementById("app")
+    )
+
+
+</script>
+</html>

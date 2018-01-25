@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+    <style>
+        .FacWidth {
+            border-width: 2px;
+            padding: 10px;
+        }
+        .Fac-blue {
+            border-color: blue;
+            border-style: solid;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html>
+<script type="text/babel">
+
+    // 也可以不使用children属性，可以自定义属性
+    
+    function Left() { 
+        return (
+            <h1>
+                Hello Left
+            </h1>
+        )
+     }
+
+
+     function Right() {
+         return (
+             <h2>
+                Hello Right
+             </h2>
+         )
+     }
+ 
+
+     function Merge(props) { 
+         return (
+             <div>
+                 {props.left}
+                 {props.right}
+             </div>
+         )
+      }
+
+      function App() {
+          return (
+              <Merge
+                left = {<Left/>}
+                right = {<Right/>}
+              />
+          )
+      }
+
+      ReactDOM.render(
+          <App/>,
+          document.getElementById('app')
+      )
+
+</script>

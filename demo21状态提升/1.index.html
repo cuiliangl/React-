@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html>
+<script type="text/babel">
+
+    class TempareText extends React.Component {
+        constructor(props){
+            super(props);
+             
+        }
+        render(){
+            let value = this.props.desc
+            if(value>=100){
+                return <h1>水开了</h1>
+            }
+            return <h1>水还没开</h1>
+        }
+    }
+
+    class Calculator extends React.Component {
+        constructor(props){
+            super(props);
+            this.state={
+                tempara: 0
+            }
+            this.handleChange = this.handleChange.bind(this);
+        }
+        render(){
+            return(
+                <form>
+                    <fieldset>
+                        <legend>温度/℃</legend>
+                        温度： <input type="number" value={this.state.tempara} onChange={this.handleChange} />
+                    </fieldset>
+                    <TempareText desc={parseFloat(this.state.tempara)}/>
+                </form>
+            )
+        }
+        handleChange(e){
+            this.setState({
+                tempara: e.target.value
+            })
+        }
+    }
+
+    ReactDOM.render(
+        <Calculator/>,
+        document.getElementById('app')
+    )
+
+</script>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html>
+<script type="text/babel">
+
+
+    // 在react中，select中的value是select根元素上获取到的value
+    class FormSelect extends React.Component{
+        constructor(props){
+            super(props)
+            this.state={
+                value: 'gz'
+            }
+            this.handleChange = this.handleChange.bind(this);
+            this.handleSubmit = this.handleSubmit.bind(this);
+        }
+        render(){
+            // 在form表单中，submit提交的事件绑定在form上
+            return(
+                <form  onSubmit={this.handleSubmit}>
+                    <label for="sle">
+                        城市: 
+                        <select id="sle" value={this.state.value} onChange={this.handleChange}>
+                            <option value="bj">北京</option>
+                            <option value="sh">上海</option>
+                            <option value="gz">广州</option>
+                            <option value="cq">重庆</option>
+                            <option value="tj">天津</option>
+                        </select>
+                    </label>
+
+                    <input type="submit" value="提交"/>
+
+                </form>
+            )
+        }
+        handleChange(e){
+            this.setState({
+                value: e.target.value
+            })
+        }
+
+        handleSubmit(e){
+            alert(this.state.value)
+            e.preventDefault()
+        }
+        
+    }
+
+    ReactDOM.render(
+        <FormSelect/>,
+        document.getElementById('app')
+    )
+
+</script>

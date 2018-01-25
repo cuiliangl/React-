@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件生命周期</title>
+   <!-- React 的核心库 -->
+   <script src="../build/react.js"></script>
+   <!-- 提供和DOM相关的功能 -->
+   <script src="../build/react-dom.js"></script>
+   <!-- 将jsx语法转换成js语法 -->
+   <script src="../build/browser.min.js"></script>
+</head>
+<style>
+    .bgc {
+        background-color: red;
+    }
+</style>
+<body>
+    <div id="app"></div>
+</body>
+<script type="text/babel">
+
+    
+    var Hello = React.createClass({
+        getInitialState(){
+            return {
+                opacity: 1
+            }
+        },
+        // 真实DOM已经插入到文档中
+        componentDidMount(){
+            var _this = this;
+            var timer = setInterval(function() {
+                // 这里边的this不是组件实例
+                var opacity = _this.state.opacity;
+                opacity -= 0.05;
+                if(opacity<0.1){
+                     opacity = 1
+                }
+
+                _this.setState({
+                    opacity: opacity
+                })
+
+            }, 200);
+
+            // 移除计时器
+            // clearInterval(timer);
+        
+        },
+        render(){
+            return (
+                // 组件的样式属性得设置成双大括号，因为React的组件样式是一个对象，第一层括号表示javascript，第二层表示样式对象
+                <div className= "bgc" style={{"opacity": this.state.opacity}}>
+                    <h1>Hello {this.props.name}</h1>
+                </div>
+            )
+        }
+    })
+
+    ReactDOM.render(
+        <Hello name="React"/>,
+        document.getElementById("app")
+    )
+
+</script>
+</html>

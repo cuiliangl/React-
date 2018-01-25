@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html>
+<script type="text/babel">
+
+    /* 
+        以上我们可以看到，当改变一个温度类型的值时，另一个并不会同步改变
+        因为即使是同一个组件，但他们是两个不同的组件实例，也就是每一次引用组件都生成新的组件实例，this是不同的
+    */ 
+
+    /*
+        此外，也不能将显示结果的TempareText组件引入到Calculator组件中，因为表示温度的状态在TempareInput组件中。
+    */
+
+    // 转摄氏度
+    function toCelsius(fahrenheit) {
+        return (fahrenheit - 32) * 5 / 9;
+    }
+
+    // 转华氏度
+    function toFahrenheit(celsius) {
+        return (celsius * 9 / 5) + 32;
+    }
+
+    // 第一个参数 温度变量 第二个参数 转换函数
+    // 首先转换成浮点数字 判断是否合法，如果不是数字，返回空字符串，否则调用转换函数进行转换，保留三位小数，最后返回字符串
+    function tryConvert(temperature, convert) { 
+        // 转浮点
+        const input = parseFloat(temperature);
+
+        if(isNaN(input)){
+            return ''
+        }
+
+        // 转换函数
+        const output = convert(input);
+        // 保留三位小数
+        const rounded = Math.round(output*1000)/1000;
+        return rounded.toString();  
+    }
+ 
+    // 现在需要将其中一个温度类型输入时另一个的值也在相应的转换改变
+
+   
+
+    // 显示结果组件
+    class TempareText extends React.Component {
+        constructor(props){
+            super(props); 
+        }
+        render(){
+            const value = this.props.desc;
+            if(value>=100){
+                return <h1>水开了</h1>
+            }
+            return <h1>水还没开</h1>
+        }
+    }
+
+    // 显示温度组件
+    class DisplayTempare extends React.Component {
+        constructor(props){
+            super(props);
+
+        }
+
+        render(){
+            const celsius = this.props.celsius
+            const fahrenheit = this.props.fahrenheit
+            return (
+                <div>
+                    <h3>摄氏温度： {celsius}</h3>
+                    <h3>华氏温度： {fahrenheit}</h3>
+                </div>
+            )
+        }
+    }
+
+    // 输入框组件
+    class TemperatureInput extends React.Component{
+        constructor(props){
+            super(props);
+            this.handleChange = this.handleChange.bind(this);
+        }
+        render(){
+            // 将state状态提升到TempareText组件和TemperatureInput组件共用的就近父组件Calculator，作为两个组件共同的数据源
+            // 在TemperatureInput组件中通过props接收
+            const tempare = this.props.temperature;
+            const choose = this.props.choose;
+            return(
+                <form>
+                    <fieldset>   
+                        <legend>温度采用： {choose}</legend>
+                        <input type="number" value={tempare} onChange={this.handleChange} />
+                        <h3>{tempare} {choose}</h3>
+                    </fieldset>
+                </form>
+            )
+        }
+        handleChange(e){  
+            // console.log(e.target.value)
+            // console.log(this)
+            this.props.onTemperatureChange(e.target.value);
+        }
+    }
+
+    // 温度计算组件
+    class Calculator extends React.Component {
+        constructor(props){
+            super(props);
+            this.state={
+                tempare: '',
+                choose: '摄氏度'
+            }
+            this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
+            this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
+        }
+        render(){
+            const choose = this.state.choose;
+            const tempare = this.state.tempare;
+
+            // 摄氏度 如果不是摄氏度则转换成摄氏度
+            const celsius = choose === '摄氏度'? tempare: tryConvert(tempare, toCelsius);
+            
+            // 华氏度 如果不是华氏度转华氏度
+            const fahrenheit = choose === '华氏度'? tempare: tryConvert(tempare, toFahrenheit);
+
+            return(
+                 <div>
+                    {/*摄氏输入组件*/}
+                    <TemperatureInput 
+                        choose='摄氏度' 
+                        temperature={celsius} 
+                        onTemperatureChange={this.handleCelsiusChange}
+                    />
+                    {/*华氏输入组件*/}
+                    <TemperatureInput
+                         choose='华氏度' 
+                         temperature={fahrenheit} 
+                         onTemperatureChange={this.handleFahrenheitChange}
+                    />
+                    {/*显示温度组件*/}
+                    <DisplayTempare celsius={celsius} fahrenheit={fahrenheit}/>
+                    {/*显示水温结果组件*/}
+                    <TempareText desc={celsius} />
+                 </div>
+            )
+        }
+        // 摄氏度改变方法
+        handleCelsiusChange(temperature){
+            // console.log('接受到了', temperature)
+            // console.log(this)
+            this.setState({
+                tempare: temperature,
+                choose: '摄氏度'
+            })
+        }
+        // 华氏度变化方法
+        handleFahrenheitChange(temperature){
+            this.setState({
+                tempare: temperature,
+                choose: '华氏度'
+            })
+        }
+    }
+
+
+    // 渲染
+    ReactDOM.render(
+        <Calculator/>,
+        document.getElementById('app')
+    )
+
+
+    /*
+        总结： 在react应用中，一个可变的数据理应是单一的数据源，并且数据保存在被渲染的组件中，但是
+        如果其他组件也使用该数据，那么将数据提升到这些组件最近的父组件中。
+    
+    */
+    
+</script>
+
+ 
+ 

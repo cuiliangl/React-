@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax</title>
+    <!-- React 的核心库 -->
+    <script src="../build/react.js"></script>
+    <!-- 提供和DOM相关的功能 -->
+    <script src="../build/react-dom.js"></script>
+    <!-- 将jsx语法转换成js语法 -->
+    <script src="../build/browser.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+</head>
+<style>
+    .bgc {
+        background-color: red;
+    }
+</style>
+<body>
+    <div id="app"></div>
+</body>
+<script type="text/babel">
+
+    
+    var RequestData = React.createClass({
+        getInitialState(){
+            return {
+                created_at: '',
+                comments: 0
+            }
+        },
+        componentDidMount(){
+            // 数据的请求必须在该生命周期的钩子函数中
+            var _this = this;
+            // $.get(this.props.source, function (response) {
+            //     console.log(response);
+            //     var result = response[0];
+            //     console.log(result)
+
+            //     _this.setState({
+            //         created_at: result.created_at,
+            //         comments: result.comments
+            //     })
+            // })
+
+            $.get(this.props.source).then(function (response) {
+                console.log(response);
+                var result = response[0];
+                console.log(result)
+
+                _this.setState({
+                    created_at: result.created_at,
+                    comments: result.comments
+                })
+                console.log(this);
+            })
+        },
+        render(){
+            return (
+                <div>
+                    <h1>Hello Ajax</h1>
+                    <h2>created_at: {this.state.created_at}</h2>
+                    <h3>评论数量： {this.state.comments}</h3>
+                </div>
+            )
+        }
+    })
+
+    ReactDOM.render(
+        <RequestData source="https://api.github.com/users/octocat/gists" />,
+        document.getElementById("app")
+    )
+
+</script>
+</html>

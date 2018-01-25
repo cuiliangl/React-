@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- React 的核心库 -->
+    <script src="../build/react.js"></script>
+    <!-- 提供和DOM相关的功能 -->
+    <script src="../build/react-dom.js"></script>
+    <!-- 将jsx语法转换成js语法 -->
+    <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="example"></div>
+</body>
+<script type="text/babel">   
+
+    
+    ReactDOM.render(
+        <div>
+            {/* 注释一定要括在大括号中 并且是这种形式 或下边这种*/}
+            {
+                // 这里是注释
+            }
+            {/*在react中写单标签的表单元素或者是单标签的组件一定要写反斜线结束*/}
+            <h1>Hello React</h1>
+            {
+                /*
+                此时的input是非受控组件，因为当我们给设置了固定的value值，不管输入什么都不会变，
+                始终是hello.或者没有设置属性
+                
+                */
+            }
+            <input type="text" value="hello" />
+            {
+                /*
+                如果你想要给“状态属性”设置默认值，就要用 React 提供的特殊属性 defaultValue，
+                对于 checked 会有 defaultChecked，<option> 也是使用 defaultValue
+                */
+            }
+            <input type="text" defaultValue="hi" />
+        </div>,
+        // 挂载
+        document.getElementById('example')
+    )
+
+</script>
+</html>

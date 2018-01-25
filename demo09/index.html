@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>获取真实的DOM节点</title>
+     <!-- React 的核心库 -->
+     <script src="../build/react.js"></script>
+     <!-- 提供和DOM相关的功能 -->
+     <script src="../build/react-dom.js"></script>
+     <!-- 将jsx语法转换成js语法 -->
+     <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+<script type="text/babel">
+
+    /*  其实组件并不是真实的DOM。只是在内存中形成的一种数据结构，也就是所谓的虚拟DOM。只有插入文档中
+        才成为真实的DOM。而根据React的设计，所有的DOM变化都是在内存中的虚拟DOM上变动，然后在反映到
+        真实DOM。
+
+        但有时我们需要获取真实的DOM，就是用ref获取，和Vue一个套路。
+    */
+    var MyTitle = React.createClass({
+        onBtn: function () { 
+            console.log(this.refs);
+            console.log(this.refs.inp.value);
+        },
+        render(){
+            return (
+                  // input标签必须要有闭合的反斜线
+                  // 报错 Uncaught SyntaxError: embedded: Expected corresponding JSX closing tag for <input>
+                <div>
+                    <input type="text" ref="inp"/>
+                    <button onClick={this.onBtn}>提交</button>
+                </div>
+             )
+         }
+    })
+
+    
+    ReactDOM.render(
+         <MyTitle />,    
+         document.getElementById("app")
+    )
+
+
+</script>
+</html>

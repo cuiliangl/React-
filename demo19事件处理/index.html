@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="app">
+
+    </div>
+</body>
+</html>
+<script type="text/babel">
+
+    // 在react中，阻止默认事件不能使用return false 必须使用preventDefault
+
+    //extends在es6是继承的意思，继承自React中的Component类
+    class Hello extends React.Component {
+        // 构造函数
+        constructor(props){
+             // 继承自Component类的props属性 在Hello类中就可以通过this.props获取父组件传递过来的值
+            super(props);
+             
+            this.state={
+                value: true
+            }
+
+            // 使用 React 的时候通常你不需要使用 addEventListener 为一个已创建的 DOM 元素添加监听器。你仅仅需要在这个元素初始渲染的时候提供一个监听器。
+            // 使用es6 class定义组件的时候，事件处理器会成为类的一个方法。这种方法是叫做属性初始化语法。
+            // 因为类的方法默认不会绑定this的，所以如果不绑定this，在方法中获取到的this是undefined
+            
+            // 表示实例拥有click方法，继承自原型click，绑定了this（实例）
+            this.click = this.click.bind(this);
+        }
+        // 在es6中相当于添加到构造函数的原型中
+        render(){
+            return (
+                <div>
+                    <span>开关 </span>
+                    <button onClick={this.click}>{this.state.value?"开": "关"}</button>
+                </div>
+            )
+        }
+        // 添加到了原型上
+        click(){
+            console.log(this)
+            this.setState({
+                value: !this.state.value
+            })
+        }
+         
+         
+    }
+    
+    ReactDOM.render(
+        <Hello name='cui'/>,
+        document.getElementById('app')
+    )
+
+   
+
+</script>

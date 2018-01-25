@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>条件渲染-使用&&连接</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+</body>
+
+</html>
+<script type="text/babel">
+
+    // 条件渲染可以使用if-else，也可以使用&&运算符 还可以使用三目运算
+    // 定义组件
+    function Hello(props) { 
+        console.log(props)
+        const mess = props.mess; 
+        /*
+        之所以可以使用&&判断，
+            是因为在js中 (true && 表达式，结果是表达式)
+            而false&&表达式，返回false
+        */
+
+         /*这里有个缺陷，就是引用组件的时候必须传递一个mess属性*/
+        return (
+           
+            <div>
+                { 
+                    mess.length > 0 && <h1>Hello World!</h1>
+                }
+            </div>
+            ) 
+    }
+    
+
+    // if-else中也是必须指定返回，如果没有返回则默认undefined，而undefined在渲染中会报错。
+    function Mondy(props) {
+        console.log(props.lists==true)
+        const lists = props.lists;
+
+        // 任意值与布尔值比较，都会将两边的值转化为Number。
+        if(lists.length){
+            return(
+                <div>
+                    数组长度大于0
+                </div>
+            )
+        } else{
+            return (
+                <div>
+                    数组长度小于0
+                </div>
+            )   
+        }
+       
+    }
+    
+    const mess = [];
+    const lists = [];
+    const arr = [1,2,3];
+    ReactDOM.render(
+        <div>
+            <Mondy lists={lists} />
+            <Hello  mess={mess}/>   
+            <Pre arr={arr}/> 
+        </div>,
+        document.getElementById("app")
+    )
+
+    // 以上三种（if-else、&&、三目）情况是二选一，结果是必定会渲染一个组件。那么如果只是条件成立的时候渲染组件，不成立的时候不渲染呢。也就是阻止组件渲染。
+    // 返回null即可。
+
+    function Pre(props) {
+        const arr = props.arr;
+        if(arr.length > 0){
+            return (
+                <div>
+                    arr不为空   
+                </div>
+            )
+        }
+        return null;
+        
+    }
+
+
+</script>

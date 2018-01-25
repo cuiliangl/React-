@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Promise对象作为属性传递到子组件</title>
+    <!-- React 的核心库 -->
+    <script src="../build/react.js"></script>
+    <!-- 提供和DOM相关的功能 -->
+    <script src="../build/react-dom.js"></script>
+    <!-- 将jsx语法转换成js语法 -->
+    <script src="../build/browser.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+</head>
+<style>
+     
+    .lisy {
+        border: 1px solid #ccc;
+    }
+</style>
+<body>
+    <div id="app"></div>
+</body>
+<script type="text/babel">
+
+    
+    var NodeList = React.createClass({
+         getInitialState(){
+             return {
+                 loading: true,
+                 data: []
+             }
+         },
+         componentDidMount(){
+             // 请求数据在该组件内完成
+             var _this = this;
+             console.log(typeof this.props.promise) // "object" 从这里是可以看出在该生命周期中拿到后就已经发送请求并拿到返回值，是一个对象，包括then，catch，promise等方法
+              
+             this.props.promise.then( (value, status, xhr)=>{
+                console.log(value)
+                console.log(xhr.responseJSON)
+                console.log(status);// success
+                console.log(xhr);
+                console.log(xhr.responseText);
+                console.log(JSON.parse(xhr.responseText))
+                
+                _this.setState({
+                     loading: false,
+                     data: value.items
+                })
+             }, error=>{
+                 console.log(error);
+             })
+         },
+         render(){
+             if(this.state.loading){
+                 return <span>loading...</span>
+             } else {
+                  
+                // Each child in an array or iterator should have a unique "key" prop.
+                // 给子组件要循环的元素加一个唯一标识   key={item.id}
+                /*
+                    React对dom做遍历的时候，会根据data-reactid生成虚拟dom树。
+                    如果你没有手动的添加unique constant key的话，react是无法记录你的dom操作的。
+                    它只会在重新渲染的时候，继续使用相应dom数组的序数号(就是array[index]这种)来
+                    比对dom树。
+                */
+               
+                return(
+                    <ul>
+                        {
+                            this.state.data.map(function (item) {
+                                return (
+                                    <li className="lisy" key={item.id} >
+                                        id： {item.id}<br/>
+                                        fullName: {item.full_name}
+                                    </li>
+                                )
+                            })
+                        }   
+                    </ul>
+                )
+             }
+         }
+    })
+
+    ReactDOM.render(
+        <div>
+            <h1>Promise对象作为属性传递到子组件</h1>  
+            
+            {/*这里的promise只是一个属性名，子组件向父组件传递值， 大括号是javaScript语法，传递的是变量 
+            向子组件传递的是 $.getJSON('https://api.github.com/search/repositories?q=javascript&sort=stars')的结果（一个对象）*/}
+            <NodeList  promise={$.getJSON('https://api.github.com/search/repositories?q=javascript&sort=stars')} />
+            
+        </div>,
+        document.getElementById("app")
+    )
+
+</script>
+</html>

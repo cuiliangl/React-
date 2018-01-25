@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html>
+<script type="text/babel">
+
+    // JSON数据
+    var PRODUCTS = [
+        {category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
+        {category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball'},
+        {category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball'},
+        {category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch'},
+        {category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5'},
+        {category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
+    ];
+
+
+    //搜索组件
+    class SearchComponent extends React.Component {
+        constructor(props){
+            super(props);
+        }
+        render(){
+            return (
+                <div>
+                    <input type="text" placeholder="搜索你想要的..." />
+                    {' '}
+                    Only show products in stock
+                </div>
+            )
+        }
+    }
+
+    // 列表分类组件
+    class ListsCategory extends React.Component{
+        constructor(props){
+            super(props);
+        }
+        render(){
+            let category = this.props.category;
+             
+            return (
+                <tr colSpan="2" >
+                    <td>{category}</td>
+                </tr>
+            )
+        }
+    }
+
+    //产品列表组件
+    class ListProduct extends React.Component {
+        constructor(props){
+            super(props)
+        }
+        render(){
+            let productMess = this.props.product;
+            let name = productMess.stocked? 
+                        productMess.name:
+                        <span style={{color: 'red'}}>
+                            {productMess.name}
+                        </span>
+            return (
+                <tr>
+                    <td>{name}</td>
+                    <td>{productMess.price}</td>
+                </tr>
+            )
+        }
+    }
+
+
+    // 列表盒子组件
+    class ListBox extends React.Component {
+        constructor(props){
+            super(props);
+        }
+        render(){
+            let arrLists = [];
+            let lastCategory = null;
+            let products = this.props.products;
+
+            products.forEach(function(item) {
+                if(item.category !== lastCategory){
+                    // 分类组件
+                    arrLists.push(
+                        <ListsCategory category={item.category} key={item.category} />
+                    )
+                }
+                // 产品组件
+                arrLists.push(
+                    <ListProduct product={item} key={item.name} />
+                )
+                lastCategory = item.category;
+
+            });
+            return (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {arrLists}
+                    </tbody>
+                </table>
+            )
+        }
+    }
+
+
+    // 最大的组件
+    class BoxComponent extends React.Component {
+        constructor(props){
+            super(props);
+        }
+        render(){
+            return (
+                <div>
+                    <SearchComponent/>
+                    <ListBox products={PRODUCTS} />
+                </div>
+            )
+        }
+    }
+
+
+    ReactDOM.render(
+        <BoxComponent/>,
+        document.getElementById('app')
+    )
+</script>

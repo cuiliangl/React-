@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>this.state</title>
+     <!-- React 的核心库 -->
+     <script src="../build/react.js"></script>
+     <!-- 提供和DOM相关的功能 -->
+     <script src="../build/react-dom.js"></script>
+     <!-- 将jsx语法转换成js语法 -->
+     <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+<script type="text/babel">
+
+    // React组件相当于一个状态机，通过和用户的交互实现不同的状态。
+     
+    var MyTitle = React.createClass({
+        // 该方法用于定义初始状态，其实相当于Vue中的data。也是一个对象，通过this.state对象读取属性的值
+         getInitialState(){
+             return {
+                 liked: false,
+                 cont: 'Do you like dog?'
+             }
+         },
+         // 如果这里的方法写成箭头函数，则需要在render的元素调用中加绑定this bind(this)
+         onBtn(){
+             console.log(this)
+            // console.log('点击');
+            // 改变某一个属性的值需要调用组件实例的setState方法，接受一个对象参数，每次状态改变后就会调用组件实例的this.render方法,重新渲染组件。
+            this.setState({liked: !this.state.liked});
+         },
+         componentWillMount(){
+             console.log('1. willMount')
+             // 在该钩子函数中获取不到DOM元素
+             console.log(this.refs.title); //  undefined
+         },
+         componentDidMount(){
+            console.log('2. didMount')
+            console.log(this.refs)
+            // DOM元素必须在该钩子中获取
+            console.log(this.refs.title)
+         },
+         componentWillUpdate(){
+             console.log('3. 即将重新渲染')
+         },
+         componentDidUpdate(){
+             console.log('4. 重新渲染完成')
+         },
+         componentWillUnUpdate(){
+             console.log('5. 组件即将销毁')
+         },
+         render(){
+            var text = this.state.liked? 'like': 'do not like'
+            // React中调用方法需要通过this.
+            return(           
+                <div>
+                    {/*获取DOM元素使用ref*/}
+                    <h1 ref="title">State(仅仅是一个标题)</h1>
+                    <h2>{this.state.cont}</h2>
+                    <button onClick={this.onBtn}>点击切换状态</button>
+                    <h3>you {text} dog</h3>
+                </div>
+            )
+         }
+    }) 
+
+    
+    ReactDOM.render(
+        <MyTitle/>,  
+        document.getElementById("app")
+    )
+
+
+</script>
+</html>

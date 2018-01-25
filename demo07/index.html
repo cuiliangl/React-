@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>propTypes</title>
+     <!-- React 的核心库 -->
+     <script src="../build/react.js"></script>
+     <!-- 提供和DOM相关的功能 -->
+     <script src="../build/react-dom.js"></script>
+     <!-- 将jsx语法转换成js语法 -->
+     <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+<script type="text/babel">
+
+    // 定义组件类
+    var MyTitle = React.createClass({
+        propTypes: {
+            // 注意PropTypes首字母大写  传过来的title属性，必须有值，且是字符串类型
+            title: React.PropTypes.string.isRequired
+        },
+        render(){
+            return <h1>Hello {this.props.title}</h1>
+        }
+    })
+
+    // 最好挂载在一个div元素上，相当于父组件的根元素，不要直接挂载在body上，会有警告
+    ReactDOM.render(
+        <MyTitle title="World"/>,
+        document.getElementById("app")
+    )
+
+
+</script>
+</html>

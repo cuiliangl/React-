@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+    <style>
+        .FacWidth {
+            border-width: 2px;
+            padding: 10px;
+        }
+        .Fac-blue {
+            border-color: blue;
+            border-style: solid;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html>
+<script type="text/babel">
+    
+    function FancyBorder(props) {
+        return (
+            <div className={'FacWidth Fac-'+props.color}>
+                {props.children}
+            </div>
+        )
+    }
+
+    function WelcomeDig() {
+        return (
+            <FancyBorder color="blue">
+                <h1>
+                    Hello World
+                </h1>
+                <h3>
+                    Hello React
+                </h3>
+            </FancyBorder>
+
+        )
+    }
+
+    ReactDOM.render(
+        <WelcomeDig />,
+        document.getElementById('app')
+    )
+
+
+
+</script>

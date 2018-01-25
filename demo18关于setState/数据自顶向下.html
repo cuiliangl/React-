@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=`, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html>
+<script type="text/babel">
+
+    // 定义组件
+    class UserNameAge extends React.Component {
+        constructor(props){
+            super(props);
+            this.state= {
+                age: 10
+            }
+        }
+        render(){
+            return (
+                <div>
+                    <h1>年龄是：{this.state.age}</h1>
+                    <h1>姓名是：{this.props.userName}</h1>
+                </div>
+            )
+        }
+    }
+
+    class UserInfo extends React.Component {
+        constructor(props){
+            super(props);
+            this.state = {
+                name: "Jack",
+                skill: "sing"
+            }
+        }
+        render(){
+            // 将自己的状态作为属性传递给子组件
+            return (
+                <div>
+                    <UserNameAge userName={this.state.name}/>
+                    <h1>喜欢的： {this.state.skill}</h1>
+                </div>
+            )
+        }
+    }
+
+    ReactDOM.render(
+        <UserInfo/>,
+        document.getElementById('app')
+    )
+
+
+
+</script>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+     <style>
+         .title {
+             color: red;
+         }
+     </style>
+</head>
+
+<body>
+    <div id="app"></div>
+</body>
+<script type="text/babel">
+    // JSX允许直接在模板中插入js变量，也可以插入数组，如果是变量是数组，则会展开所有数组的成员
+
+    var i = 0;
+    var title = <h1>Hello JSX</h1>;
+    var names = [
+        <h1 key={i++}>Hello Mike</h1>,
+        <h1 key={i++}>Hello Jack</h1>
+    ];
+
+    var arr = ["Rose", "Tom"];
+
+    ReactDOM.render(
+        // <div>{title}</div>,
+        // <div>{names}</div>,
+        // 外边的div是一个根元素，一个模板中有且只有一个根元素
+        // JSX中写类样式要使用className， 不能使用class， 因为class是js中的保留字关键字
+        <div>
+            <div className = "title">{title}</div>
+            <div>{arr}</div>
+            <div>{names}</div>
+        </div>,
+        document.getElementById('app')
+    )
+</script>
+</html>

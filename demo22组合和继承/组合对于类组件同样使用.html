@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html>
+<script type="text/babel">
+
+
+    function Digg(props) { 
+
+        return (
+            <div>
+                <h1>
+                    {props.title}
+                </h1>
+                <h2>
+                    {props.message}
+                </h2>
+                {props.children}
+            </div>
+        )
+
+     }
+
+     class Facto extends React.Component{
+         constructor(props){
+             super(props)
+             this.state={
+                 txt: ''
+             }
+             this.handleChange = this.handleChange.bind(this);
+             this.handleSubmit = this.handleSubmit.bind(this);
+         }
+
+         render(){
+             return (
+                 <Digg title = "Hello" message="welcome to china beijing!">
+                 {/*这部分是Digg标签的内容*/}
+                    <form onSubmit={this.handleSubmit}>
+                        <input type="text" value={this.state.txt} onChange={this.handleChange} />
+                        <input type="submit" value="提交" />
+                    </form>
+                 </Digg>
+             )
+         }
+         handleChange(e){
+            this.setState({
+                txt: e.target.value
+            })
+         }
+         handleSubmit(e){
+             alert(`输入的是: ${this.state.txt}`)
+             e.preventDefault()
+         }
+     }
+
+
+     ReactDOM.render(
+         <Facto/>,
+         document.getElementById('app')
+     )
+
+</script>

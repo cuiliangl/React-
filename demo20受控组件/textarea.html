@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html>
+<script type="text/babel">
+
+    // 在react中，textarea中的值由value获取
+
+    class EasyTextarea extends React.Component {
+        constructor(props){
+            super(props)
+            this.state={
+            value: 'this is textarea'
+            }
+ 
+            this.handleChange = this.handleChange.bind(this)
+            this.handleSbumit = this.handleSbumit.bind(this)
+       
+        }
+       
+        render(){
+            return (
+                 <form onSubmit={this.handleSbumit}>
+                    <label for="txt">描述: </label>
+                    <textarea  id="txt" cols="30" rows="10" value={this.state.value} onChange={this.handleChange}></textarea>
+                    <input type="submit" value="提交" />
+                 </form>
+                
+            )
+        }
+        handleChange(e){
+            this.setState({
+                value: e.target.value
+            })
+        }
+        handleSbumit(e){
+            alert(this.state.value)
+            e.preventDefault()
+        }
+    }
+
+    ReactDOM.render(
+        <EasyTextarea/>,
+        document.getElementById('app')
+    )
+
+</script>

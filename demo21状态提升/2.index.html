@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html>
+<script type="text/babel">
+
+    // 再加一个输入，将Calculator提取出来
+
+    // 显示文案
+    class TempareText extends React.Component {
+        constructor(props){
+            super(props); 
+        }
+        render(){
+            let value = this.props.desc;
+            if(value>=100){
+                return <h1>水开了</h1>
+            }
+            return <h1>水还没开</h1>
+        }
+    }
+
+    // 温度选择/计算
+    class TempareInput extends React.Component{
+        constructor(props){
+            super(props);
+            this.state={
+                tempare: ''
+            };
+            this.handleChange = this.handleChange.bind(this);
+        }
+        render(){
+            let tempare = this.state.tempare;
+            return(
+                <form>
+                    <fieldset>   
+                        <legend>温度采用： {this.props.choose}</legend>
+                        <input type="number" value={tempare} onChange={this.handleChange} />
+                        <h3>{tempare}</h3>
+                        <TempareText desc={tempare} />
+                    </fieldset>
+                </form>
+            )
+        }
+        handleChange(e){
+            this.setState({
+                tempare: e.target.value
+            })
+
+            // console.log(typeof this.state.tempare);// string
+        }
+    }
+
+    // 引用温度计算组件
+    class Calculator extends React.Component {
+        constructor(props){
+            super(props);
+        }
+        render(){
+            return(
+                 <div>
+                    <TempareInput choose='摄氏度'/>
+                    <TempareInput choose='华氏度'/>
+                 </div>
+            )
+        }
+    }
+
+    // 渲染
+    ReactDOM.render(
+        <Calculator/>,
+        document.getElementById('app')
+    )
+
+    /* 
+        以上我们可以看到，当改变一个温度类型的值时，另一个并不会同步改变
+        因为即使是同一个组件，但他们是两个不同的组件实例，也就是每一次引用组件都生成新的组件实例，this是不同的
+    */ 
+
+    /*
+        此外，也不能将显示结果的TempareText组件引入到Calculator组件中，因为表示温度的状态在TempareInput组件中。
+    */
+
+    // 转摄氏度
+    function toCelsius(fahrenheit) {
+        return (fahrenheit - 32) * 5 / 9;
+    }
+
+    // 转华氏度
+    function toFahrenheit(celsius) {
+        return (celsius * 9 / 5) + 32;
+    }
+
+    // 第一个参数 温度变量 第二个参数 转换函数
+    // 首先转换成数字 判断是否合法，如果不是数字，返回空字符串，否则调用转换函数进行转换，保留三位小数，最后返回字符串
+    function tryConvert(temperature, convert) { 
+        let input = parseFloat(temperature);
+
+        if(isNaN(input)){
+            return ''
+        }
+
+        // 转换函数
+        let output = convert(input);
+        // 保留三位小数
+        let rounded = Math.round(output*1000)/1000;
+        return rounded.toString();  
+    }
+
+    let result = tryConvert(102.33, toCelsius);
+    console.log(result)
+
+
+    // 现在需要将其中一个温度类型输入时另一个的值也在相应的转换改变
+
+
+
+
+</script>
+
+<script>
+
+
+    // alert(a);
+    // a()
+    // var a= 3;
+    // function a(){
+    //     alert(10)
+    // }
+    // alert(a);
+    // a=6
+    // a();
+
+</script>
