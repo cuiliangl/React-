@@ -12,6 +12,10 @@
          .title {
              color: red;
          }
+         .size {
+             color: green;
+             font-size: 25px;
+         }
      </style>
 </head>
 
@@ -19,7 +23,7 @@
     <div id="app"></div>
 </body>
 <script type="text/babel">
-    // JSX允许直接在模板中插入js变量，也可以插入数组，如果是变量是数组，则会展开所有数组的成员
+    // JSX允许直接在模板中插入js变量，也可以插入数组，如果变量是数组，则会展开所有数组的成员
 
     var i = 0;
     var title = <h1>Hello JSX</h1>;
@@ -30,15 +34,41 @@
 
     var arr = ["Rose", "Tom"];
 
+    function Hello(props) {
+        return (
+            <div>{props.count}</div>
+        )
+    }
+
+    function CreateHello() {
+        // 用React.CreateElement创建的jsx表达式和上面的Hello中return的表达式等价，实际上Babel会把jsx表达式转换成React.CreateElement()方法的调用
+        // 返回的对象被称为React元素。
+        return React.createElement(
+            'h2',
+            {
+                className: 'size'
+            },
+            '由React.CreateElement创建'
+        )
+    }
+
+    console.log(CreateHello())
+
+
     ReactDOM.render(
         // <div>{title}</div>,
         // <div>{names}</div>,
         // 外边的div是一个根元素，一个模板中有且只有一个根元素
-        // JSX中写类样式要使用className， 不能使用class， 因为class是js中的保留字关键字
+        // JSX中写类样式要使用className， 不能使用class， 因为class是js中的关键字
         <div>
             <div className = "title">{title}</div>
             <div>{arr}</div>
             <div>{names}</div>
+            {/* 字符串 10 */}
+            <Hello count="10"/>
+            {/* 数字 20 */}
+            <Hello count={20}/>
+            <CreateHello/>
         </div>,
         document.getElementById('app')
     )

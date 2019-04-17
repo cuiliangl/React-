@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="../build/react.js"></script>
+  <script src="../build/react-dom.js"></script>
+  <script src="../build/browser.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+
+</html>
+
+<script type="text/babel">
+
+ class TestSetState extends React.Component {
+   constructor() {
+     super()
+     this.state = {
+       num: 10
+     }
+
+     this.increment = this.increment.bind(this)
+   }
+
+   render() {
+     return (
+        <div>
+          <button onClick={this.increment}>+1</button>
+          <p>{this.state.num}</p>
+        </div>
+     )
+   }
+
+   increment() {
+      /*
+        测试一：
+       this.setState({num: this.state.num + 1})
+       this.setState({num: this.state.num + 1})
+       this.setState({num: this.state.num + 1})
+
+      */
+      // 测试二 setTimeout 不在React的控制之外，其处理程序中的setState是同步更新state
+      setTimeout(() => {
+        this.setState({num: this.state.num + 1})
+        this.setState({num: this.state.num + 1})
+        this.setState({num: this.state.num + 1})
+      }, 1000);
+   }
+
+  componentDidUpdate() {
+    // 测试一
+    // console.log(this.state.num)　 // 11 只执行了一次 合并批处理
+
+    // 测试二
+    console.log(this.state.num)  // 13
+  }
+
+  componentDidMount() {
+    this.setState({
+      num: this.state.num + 10
+    })
+
+    // setState 在组件生命周期内也是异步执行的
+    console.log('mount')
+  }
+ }
+
+ ReactDOM.render(
+   <TestSetState />,
+   document.getElementById('root')
+ )
+
+</script>

@@ -16,14 +16,11 @@
 </body>
 <script type="text/babel">
 
-    var names = ["Jack", "Rose", "Mike"];
-    var i =0;
+    const names = ["Jack", "Rose", "Mike"];
     ReactDOM.render(
         <div>
             {
-                names.map(function (name) {
-                    return <div key={i++}>Hello, {name}!</div>
-                })
+                names.map((name, index) => <div key={index}>Hello, {name}!</div>)
             }    
             {
                 [<h1 key='1'>一级标题</h1>,<h2 key='2'>二级标题</h2>,<h3 key='3'>三级标题</h3>]

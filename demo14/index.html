@@ -32,12 +32,14 @@
                  data: []
              }
          },
-         componentDidMount(){
+         componentDidMount() {
+             console.log(222)
              // 请求数据在该组件内完成
-             var _this = this;
-             console.log(typeof this.props.promise) // "object" 从这里是可以看出在该生命周期中拿到后就已经发送请求并拿到返回值，是一个对象，包括then，catch，promise等方法
-              
-             this.props.promise.then( (value, status, xhr)=>{
+             console.log(this.props.promise)
+             console.log(typeof this.props.promise) 
+             // "object" 从这里是可以看出在该生命周期中拿到后就已经发送请求并拿到返回值，是一个对象，包括then，catch，promise等方法
+
+             this.props.promise.then((value, status, xhr) => {
                 console.log(value)
                 console.log(xhr.responseJSON)
                 console.log(status);// success
@@ -45,16 +47,19 @@
                 console.log(xhr.responseText);
                 console.log(JSON.parse(xhr.responseText))
                 
-                _this.setState({
+                this.setState({
                      loading: false,
                      data: value.items
                 })
              }, error=>{
                  console.log(error);
              })
+
+             console.log(333)
          },
-         render(){
-             if(this.state.loading){
+         render() {
+             console.log(111)
+             if (this.state.loading) {
                  return <span>loading...</span>
              } else {
                   
@@ -70,9 +75,9 @@
                 return(
                     <ul>
                         {
-                            this.state.data.map(function (item) {
+                            this.state.data.map((item, index) => {
                                 return (
-                                    <li className="lisy" key={item.id} >
+                                    <li className="lisy" key={index} >
                                         id： {item.id}<br/>
                                         fullName: {item.full_name}
                                     </li>

@@ -21,9 +21,7 @@
     <div id="app"></div>
 </body>
 <script type="text/babel">
-
-    
-    var Hello = React.createClass({
+    const Hello = React.createClass({
         getInitialState(){
             return {
                 opacity: 1
@@ -31,16 +29,15 @@
         },
         // 真实DOM已经插入到文档中
         componentDidMount(){
-            var _this = this;
-            var timer = setInterval(function() {
-                // 这里边的this不是组件实例
-                var opacity = _this.state.opacity;
+            const timer = setInterval(() => {
+
+                let opacity = this.state.opacity;
                 opacity -= 0.05;
                 if(opacity<0.1){
                      opacity = 1
                 }
 
-                _this.setState({
+                this.setState({
                     opacity: opacity
                 })
 
@@ -50,10 +47,10 @@
             // clearInterval(timer);
         
         },
-        render(){
+        render() {
             return (
-                // 组件的样式属性得设置成双大括号，因为React的组件样式是一个对象，第一层括号表示javascript，第二层表示样式对象
-                <div className= "bgc" style={{"opacity": this.state.opacity}}>
+                // 组件的样式属性得设置成双大括号，因为React的组件样式是一个对象，第一层括号表示里边是javascript表达式，第二层表示样式对象
+                <div className= "bgc" style={{opacity: this.state.opacity}}>
                     <h1>Hello {this.props.name}</h1>
                 </div>
             )

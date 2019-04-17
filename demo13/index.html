@@ -22,47 +22,36 @@
     <div id="app"></div>
 </body>
 <script type="text/babel">
-
-    
-    var RequestData = React.createClass({
-        getInitialState(){
+    const RequestData = React.createClass({
+        getInitialState() {
             return {
-                created_at: '',
-                comments: 0
+                list: []
             }
         },
-        componentDidMount(){
-            // 数据的请求必须在该生命周期的钩子函数中
-            var _this = this;
-            // $.get(this.props.source, function (response) {
-            //     console.log(response);
-            //     var result = response[0];
-            //     console.log(result)
-
-            //     _this.setState({
-            //         created_at: result.created_at,
-            //         comments: result.comments
-            //     })
-            // })
-
-            $.get(this.props.source).then(function (response) {
-                console.log(response);
-                var result = response[0];
-                console.log(result)
-
-                _this.setState({
-                    created_at: result.created_at,
-                    comments: result.comments
+        componentDidMount() {
+            $.get(this.props.source).then(response => {
+                this.setState({
+                    list: response
                 })
-                console.log(this);
+                console.log(this)
             })
         },
         render(){
             return (
                 <div>
                     <h1>Hello Ajax</h1>
-                    <h2>created_at: {this.state.created_at}</h2>
-                    <h3>评论数量： {this.state.comments}</h3>
+                    <ul>
+                        {
+                            this.state.list.map((item, index) => {
+                                return (
+                                    <li key={index}>
+                                        <h2>created_at: {item.created_at}</h2>
+                                        <h3>评论数量： {item.comments}</h3>
+                                    </li>
+                                )
+                            })
+                        }
+                    </ul>
                 </div>
             )
         }

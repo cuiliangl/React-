@@ -21,7 +21,7 @@
             构造函数是唯一能够初始化 this.state 的地方。
         2. 状态更新可能是异步的
             也就是this.props和this.state可能是异步的，不应该依靠他们的值计算下一个
-            通过在this.setState中通过回调函数而不是对象，回调函数的第一个参数是之前的状态，第二个参数是将要更新的值。
+            通过在this.setState中通过回调函数而不是对象，回调函数的第一个参数是之前的状态(state)，第二个参数是此次更新被应用时的props。
         3. 状态更新合并
             state中的状态可能包含一些独立的变量，可以在setState中独立的更新它们。
     */
@@ -37,14 +37,16 @@
             return(
                 <div>
                     <h1>计算结果是： {this.state.count}</h1>
-                    <button onClick={this.click.bind(this)}>计算</button>
+                    <button onClick={this.click.bind(this, this.state.count)}>计算</button>
                 </div>
             )
         }
-        click(){
+        click(count, e){
+            console.log(count)
+            console.log(e)
             // 箭头函数
             var a = this.setState((pre, props)=>({
-                count: pre.count+props.obj.num
+                count: pre.count + props.obj.num
             }))
             // 箭头后边跟圆括号，括号中的值将默认作为函数的返回值。
             var num=(()=>(3))()

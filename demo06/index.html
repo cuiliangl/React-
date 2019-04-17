@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-     <!-- React 的核心库 -->
-     <script src="../build/react.js"></script>
-     <!-- 提供和DOM相关的功能 -->
-     <script src="../build/react-dom.js"></script>
-     <!-- 将jsx语法转换成js语法 -->
-     <script src="../build/browser.min.js"></script>
+    <!-- React 的核心库 -->
+    <script src="../build/react.js"></script>
+    <!-- 提供和DOM相关的功能 -->
+    <script src="../build/react-dom.js"></script>
+    <!-- 将jsx语法转换成js语法 -->
+    <script src="../build/browser.min.js"></script>
 </head>
 <body>
     <div id="app"></div>
@@ -36,7 +36,10 @@
 
     ReactDOM.render(
         // NodeList有两个子节点 可以通过this.props.children读取
-        // 注意：this.props.children有三种可能，当组件类没有子节点的时候值为undefined；当有一个值的时候是一个对象，当大于一个子节点的时候，值为数组
+        // 注意：this.props.children有三种可能
+        // 1. 当组件类没有子节点的时候值为undefined
+        // 2. 当有一个值的时候是一个对象
+        // 3. 当大于一个子节点的时候，值为数组
         <NodeList>
             <span>Hello</span>    
             <span>React</span>

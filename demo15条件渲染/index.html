@@ -20,24 +20,25 @@
 
     // 条件渲染可以使用if-else，也可以使用&&运算符 还可以使用三目运算
     // 定义组件
-    function Hello(props) { 
-        console.log(props)
-        const mess = props.mess; 
+    function Hello({mess = []}) { 
+        // console.log(props)
+        // const mess = props.mess; 
+
         /*
-        之所以可以使用&&判断，
+            之所以可以使用&&判断，
             是因为在js中 (true && 表达式，结果是表达式)
             而false&&表达式，返回false
         */
 
-         /*这里有个缺陷，就是引用组件的时候必须传递一个mess属性*/
+         /* 这里有个缺陷，就是引用组件的时候必须传递一个mess属性 */
+         // 现在可以设置参数默认值了哦~
         return (
-           
             <div>
                 { 
-                    mess.length > 0 && <h1>Hello World!</h1>
+                    mess.length && <h1>Hello World!</h1>
                 }
             </div>
-            ) 
+        ) 
     }
     
 
@@ -53,7 +54,8 @@
                     数组长度大于0
                 </div>
             )
-        } else{
+        }
+         else {
             return (
                 <div>
                     数组长度小于0
@@ -66,11 +68,13 @@
     const mess = [];
     const lists = [];
     const arr = [1,2,3];
+    const arr1 = [];
     ReactDOM.render(
         <div>
             <Mondy lists={lists} />
-            <Hello  mess={mess}/>   
+            <Hello mess={mess}/>   
             <Pre arr={arr}/> 
+            <Pre arr={arr1}/> 
         </div>,
         document.getElementById("app")
     )
@@ -80,16 +84,13 @@
 
     function Pre(props) {
         const arr = props.arr;
-        if(arr.length > 0){
+        if (arr.length) {
             return (
                 <div>
                     arr不为空   
                 </div>
             )
         }
-        return null;
-        
+        return null;   
     }
-
-
 </script>

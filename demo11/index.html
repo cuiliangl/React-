@@ -19,38 +19,37 @@
 
      
     var MyTitle = React.createClass({
-        getInitialState(){
+        getInitialState() {
              return {
                  value: "React",
-                 defualtId: '初始值'
+                 defualtId: '初始值',
+                 text: 'Hello'
              }
          },
-         getValue(e){
+         getValue(e) {
             // 通过触发onChange事件的回调函数读取input中的值，通过e.target.value
-           
-            console.log(e.target.value);;
+            console.log(e.target.value);
             this.setState({
                 value: e.target.value
-                
             })
          },
-         render(){
-
-             return (
+         render() {
+            return (
                 <div>
                     <h1>表单</h1>
                     <input type="text" value={this.state.value} onChange={this.getValue}/>
                     <h3>{this.state.value}</h3>
                     <input type="text" defaultValue = {this.state.defualtId}/>
+                    <div>{this.state.text}</div>
                 </div>
-             )
+            )
          },
-         componentDidMount(){
-             var self = this;
-             setTimeout(function() {
-                self.setState({
+         componentDidMount() {
+             setTimeout(() => {
+                this.setState({
                     defualtId: '变了'
                 })
+                console.log(this.state)  // {defualtId: "变了", value: "React"}
              }, 3000);
              // 可以看出input的默认值并不会改变，defualtValue是默认值，第一次设置时生效。即使改变了值，也不会显示在页面。
          }

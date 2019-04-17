@@ -10,9 +10,7 @@
     <script src="../build/browser.min.js"></script>
 </head>
 <body>
-    <div id="app">
-
-    </div>
+    <div id="app"></div>
 </body>
 </html>
 <script type="text/babel">
@@ -22,7 +20,7 @@
     //extends在es6是继承的意思，继承自React中的Component类
     class Hello extends React.Component {
         // 构造函数
-        constructor(props){
+        constructor(props) {
              // 继承自Component类的props属性 在Hello类中就可以通过this.props获取父组件传递过来的值
             super(props);
              
@@ -30,15 +28,16 @@
                 value: true
             }
 
-            // 使用 React 的时候通常你不需要使用 addEventListener 为一个已创建的 DOM 元素添加监听器。你仅仅需要在这个元素初始渲染的时候提供一个监听器。
-            // 使用es6 class定义组件的时候，事件处理器会成为类的一个方法。这种方法是叫做属性初始化语法。
-            // 因为类的方法默认不会绑定this的，所以如果不绑定this，在方法中获取到的this是undefined
+            // 使用 React 的时候通常你不需要使用 addEventListener 为一个已创建的 DOM 元素添加监听器。
+            // 你仅仅需要在这个元素初始渲染的时候提供一个监听器。
+            // 使用es6 class定义组件的时候，事件处理器会成为类的一个方法。这种方法叫做属性初始化语法。
+            // 因为类的方法默认不会绑定this的，所以如果不绑定this，在方法中获取到的this是null
             
             // 表示实例拥有click方法，继承自原型click，绑定了this（实例）
             this.click = this.click.bind(this);
         }
         // 在es6中相当于添加到构造函数的原型中
-        render(){
+        render() {
             return (
                 <div>
                     <span>开关 </span>
@@ -47,14 +46,14 @@
             )
         }
         // 添加到了原型上
-        click(){
+        click() {
             console.log(this)
-            this.setState({
-                value: !this.state.value
-            })
-        }
-         
-         
+            this.setState(preState => (
+                {
+                    value: !this.state.value
+                }
+            ))
+        } 
     }
     
     ReactDOM.render(
