@@ -23,22 +23,100 @@
    constructor() {
      super()
      this.state = {
-       num: 10
+      //  num: 10,
+       count: 10
      }
 
      this.increment = this.increment.bind(this)
+     this.add = this.add.bind(this)
+     this.handleClick = this.handleClick.bind(this)
    }
 
    render() {
+     console.log('render', this.state)
      return (
         <div>
           <button onClick={this.increment}>+1</button>
           <p>{this.state.num}</p>
+          <button onClick={this.add}>add</button>
+          <button onClick={this.handleClick}>click</button>
+
+          <br/>
+          count: {this.state.count}
         </div>
      )
    }
 
-   increment() {
+
+   componentDidMount() {
+    // this.setState({
+    //   num: this.state.num + 10
+    // })
+
+    // setState 在组件生命周期内也是异步执行的
+    // console.log('mount')
+  }
+
+  handleClick() {
+    this.setState({
+      count: 12
+    })
+
+    // this.setState({
+    //   num: 50
+    // })
+    // console.log(this.state)
+    // console.log('click')
+    // console.log(this.state)
+
+    
+    // this.setState(this.handle, () => {console.log(this.state)})
+    // this.setState(this.handle, () => {console.log(this.state)})
+    // this.setState(this.handle, () => {console.log(this.state)})
+
+    // this.setState(this.handle)
+    // this.setState({ count: this.state.count + 1 })
+    // this.setState(this.handle)
+  }
+
+  // handle(state, props) {
+  //   return {
+  //     count: state.count + 1
+  //   }
+  // }
+
+   shouldComponentUpdate(nextProps, nextState) {
+    // console.log(props)
+
+    // this.state还是未更新状态
+    // console.log(this.state)
+    
+    // 参数是更新后的state
+    // console.log(state)
+    // return false
+
+    return false
+  }
+  
+
+   componentWillUpdate(nextProps, nextState) {
+    //  console.log(nextProps)
+    //  console.log(nextState)
+    
+
+    // this.state仍然是未更新的state
+    // console.log(this.state)
+   }
+  
+  componentDidUpdate() {
+    // 测试一
+    // console.log(this.state.num)　 // 11 只执行了一次 合并批处理
+
+    // 测试二
+    // console.log(this.state.num)  // 13
+  }
+
+  increment() {
       /*
         测试一：
        this.setState({num: this.state.num + 1})
@@ -54,22 +132,16 @@
       }, 1000);
    }
 
-  componentDidUpdate() {
-    // 测试一
-    // console.log(this.state.num)　 // 11 只执行了一次 合并批处理
-
-    // 测试二
-    console.log(this.state.num)  // 13
-  }
-
-  componentDidMount() {
-    this.setState({
-      num: this.state.num + 10
-    })
-
-    // setState 在组件生命周期内也是异步执行的
-    console.log('mount')
-  }
+   add() {
+     this.setState((state, props) => {
+        console.log(state)
+        return {
+          count: state.count + 1
+        }
+     }, () => {
+       console.log('update')
+     })
+   }
  }
 
  ReactDOM.render(
